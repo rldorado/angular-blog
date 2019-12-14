@@ -1,0 +1,19 @@
+{
+  "name": "lgc-frontend-challenge-api",
+  "version": "0.0.0-development",
+  "description": "Simple REST API for frontend code challenge",
+  "scripts": {
+    "api": "json-server --watch api/db.json --port 9001",
+    "start": "npm run api"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LetsGetChecked/frontend-challenge-api.git"
+  },
+  "author": "LetsGetChecked",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "json-server": "^0.14.0"
+  }
+}

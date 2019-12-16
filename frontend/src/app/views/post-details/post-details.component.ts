@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PostService } from '../services/post.service';
-import { Post } from '../post/post';
+import { PostService } from '../../services/post.service';
+import { CommentService } from '../../services/comment.service';
+
+import { Post } from '../../model/post';
+import { Comment } from '../../model/comment';
 
 @Component({
   selector: 'app-post-details',
@@ -18,20 +21,30 @@ export class PostDetailsComponent implements OnInit {
     publish_date: null,
     content: ''
   };
+  comments: Comment[] = [];
   isLoading = true;
 
-  constructor(private route: ActivatedRoute, private api: PostService) { }
+  constructor(private route: ActivatedRoute, private apiPost: PostService, private apiComment: CommentService) { }
 
   ngOnInit() {
     this.getPostDetails(this.route.snapshot.params.id);
   }
 
   getPostDetails(id: any) {
-    this.api.getPost(id)
+    this.apiPost.getPost(id)
       .subscribe((data: any) => {
         this.post = data;
-        this.post.id = data.id;
+        this.getCommentsByPostId();
         this.isLoading = false;
+      });
+  }
+
+  getCommentsByPostId() {
+    this.apiComment.getCommentsByPostId(this.post.id)
+      .subscribe((res: any) => {
+        this.comments = res;
+      }, err => {
+        console.log(err);
       });
   }
 

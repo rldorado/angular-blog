@@ -2,30 +2,31 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { Post } from '../model/post';
+import { Comment } from '../model/comment';
 
-const apiURL = 'http://localhost:9001/posts/';
+const apiURL = 'http://localhost:9001/comments/';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {
+export class CommentService {
 
   constructor(private http: HttpClient) { }
 
-  getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(apiURL).pipe(
-        tap(() => this.log('Posts fetched')),
-        catchError(this.handleError('getPosts', []))
-      );
+  getComment(id: any): Observable<Comment> {
+    const url = `${apiURL}/${id}`;
+    return this.http.get<Comment>(url).pipe(
+        tap(_ => console.log(`fetched comment by id=${id}`)),
+        catchError(this.handleError<Comment>(`getComment id=${id}`))
+    );
   }
 
-  getPost(id: any): Observable<Post> {
-    const url = `${apiURL}/${id}`;
-    return this.http.get<Post>(url).pipe(
-      tap(_ => console.log(`fetched post by id=${id}`)),
-      catchError(this.handleError<Post>(`getPost id=${id}`))
-    );
+  getCommentsByPostId(postId: any): Observable<Comment[]> {
+    const url = `${apiURL}/?postId=${postId}`;
+    return this.http.get<Comment[]>(url).pipe(
+        tap(() => this.log(`fetched comments by postId=${postId}`)),
+        catchError(this.handleError('getCommentsByPostId', []))
+      );
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

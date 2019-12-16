@@ -1,0 +1,12 @@
+<div *ngIf="isLoading" class="alert alert-warning">
+  Loading data, please wait...
+</div>
+<div class="card-columns">
+  <div class="card" *ngFor="let post of posts" [routerLink]="['/post/details/', post.id]" style="cursor: pointer">
+    <div class="card-header">{{ post.author }} | <span class="text-muted">{{ post.publish_date }}</span></div>
+    <div class="card-body">
+      <h5 class="card-title">{{ post.title }}</h5>
+      <p class="card-text"> {{ post.description }} </p>
+    </div>
+  </div>
+</div>

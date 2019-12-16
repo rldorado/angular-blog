@@ -1,22 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { PostComponent } from './post/post.component';
-import { HomeComponent } from './home/home.component';
-
 import { HttpClientModule } from '@angular/common/http';
+
+// Routing
+import { AppRoutingModule } from './app-routing.module';
+
+// Components
+import { AppComponent } from './app.component';
+import { HomeComponent } from './views/home/home.component';
+import { PostDetailsComponent } from './views/post-details/post-details.component';
+import { CommentComponent } from './components/comment/comment.component';
+
+// Services
 import { PostService } from './services/post.service';
-import { PostDetailsComponent } from './post-details/post-details.component';
+import { CommentService } from './services/comment.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PostComponent,
     HomeComponent,
-    PostDetailsComponent
+    PostDetailsComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +29,7 @@ import { PostDetailsComponent } from './post-details/post-details.component';
     HttpClientModule
   ],
   providers: [
-    PostService
+    PostService, CommentService
   ],
   bootstrap: [AppComponent]
 })

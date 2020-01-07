@@ -1,3 +1,6 @@
+<ng-template #commentModal let-modal>
+  <app-add-comment [post]="post"></app-add-comment>
+</ng-template>
 <div class="container">
   <div *ngIf="isLoading" class="alert alert-warning">
     Loading data, please wait...
@@ -5,7 +8,7 @@
   <div class="btn-toolbar justify-content-center mb-2">
     <div class="btn-group" aria-label="Main buttons">
       <button class="btn btn-secondary" [routerLink]="'/home'">Go back</button>
-      <button class="btn btn-primary" [routerLink]="['/post/edit', post.id]">Add Comment</button>
+      <button class="btn btn-primary" (click)="openModal(commentModal)">Add Comment</button>
     </div>
   </div>
   <div class="card">

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Comment } from '../model/comment';
 
-const apiURL = 'http://localhost:9001/comments/';
+const apiURL = 'http://localhost:9001';
 
 @Injectable({
   providedIn: 'root'
@@ -13,16 +13,15 @@ export class CommentService {
 
   constructor(private http: HttpClient) { }
 
-  getComment(id: any): Observable<Comment> {
-    const url = `${apiURL}/${id}`;
-    return this.http.get<Comment>(url).pipe(
-        tap(_ => console.log(`fetched comment by id=${id}`)),
-        catchError(this.handleError<Comment>(`getComment id=${id}`))
+  addCommentByPostId(comment: Comment, id: number): Observable<Comment> {
+    return this.http.post<Comment>(`${apiURL}/posts/${id}/comments`, comment).pipe(
+      tap((prod: Comment) => console.log(`added comment w/ id=${prod.id} to post w/ id=${id}`)),
+      catchError(this.handleError<Comment>('addComment'))
     );
   }
 
   getCommentsByPostId(postId: any): Observable<Comment[]> {
-    const url = `${apiURL}/?postId=${postId}`;
+    const url = `${apiURL}/posts/${postId}/comments`;
     return this.http.get<Comment[]>(url).pipe(
         tap(() => this.log(`fetched comments by postId=${postId}`)),
         catchError(this.handleError('getCommentsByPostId', []))

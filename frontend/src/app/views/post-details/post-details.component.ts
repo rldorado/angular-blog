@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PostService } from '../../services/post.service';
 import { CommentService } from '../../services/comment.service';
 
@@ -24,7 +25,8 @@ export class PostDetailsComponent implements OnInit {
   comments: Comment[] = [];
   isLoading = true;
 
-  constructor(private route: ActivatedRoute, private apiPost: PostService, private apiComment: CommentService) { }
+  constructor(private route: ActivatedRoute, private apiPost: PostService,
+              private apiComment: CommentService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getPostDetails(this.route.snapshot.params.id);
@@ -46,6 +48,10 @@ export class PostDetailsComponent implements OnInit {
       }, err => {
         console.log(err);
       });
+  }
+
+  openModal(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
 }

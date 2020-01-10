@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { CommentService } from '../../services/comment.service';
 import { Post } from '../../model/post';
+import { Comment } from '../../model/comment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -15,18 +16,24 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class AddCommentComponent implements OnInit {
 
   @Input() post: Post;
+  comment: Comment;
   commentForm: FormGroup;
 
-  constructor(private api: CommentService, private router: Router, private modalService: NgbModal) { }
+  constructor(private api: CommentService, private router: Router, private modalService: NgbModal) {
+    this.comment = new Comment();
+  }
 
   ngOnInit() {
     this.commentForm = new FormGroup({
-      content: new FormControl('', [Validators.required])
+      content: new FormControl('', [Validators.required]),
+      user: new FormControl('', [Validators.required])
     });
   }
 
   addComment() {
-    this.api.addCommentByPostId(this.commentForm.value, Number(this.post.id))
+    this.comment = this.commentForm.value;
+    this.comment.date = this.formatCurrentDate();
+    this.api.addCommentByPostId(this.comment, this.post.id)
       .subscribe(() => {
         this.modalService.dismissAll();
         this.refresh();
@@ -37,6 +44,19 @@ export class AddCommentComponent implements OnInit {
   private refresh() {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
+  }
+
+  private formatCurrentDate(): string {
+    const current: Date = new Date();
+    let strMonth = (current.getMonth() + 1).toString();
+    let strDay = current.getDate().toString();
+    if (current.getMonth() + 1 < 10) {
+      strMonth = '0' + strMonth;
+    }
+    if (current.getDate() < 10) {
+      strDay = '0' + strDay;
+    }
+    return current.getFullYear() + '-' + strMonth + '-' + strDay;
   }
 
 }

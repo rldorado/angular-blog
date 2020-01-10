@@ -7,6 +7,13 @@
 <div class="modal-body">
   <form [formGroup]="commentForm">
     <div class="form-group">
+      <div *ngIf="!commentForm.controls['user'].valid && commentForm.controls['user'].touched" class="alert alert-danger">This field is required.</div>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Author:</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Write author's name..." aria-label="author" formControlName="user">
+      </div>
       <div *ngIf="!commentForm.controls['content'].valid && commentForm.controls['content'].touched" class="alert alert-danger">This field is required.</div>
       <textarea class="form-control" type="text" id="commentContent" placeholder="Write here..." formControlName="content"></textarea>
     </div>

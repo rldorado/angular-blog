@@ -3,6 +3,6 @@ export class Comment {
   postId: number;
   parent_id: null;
   user: string;
-  date: Date;
+  date: string;
   content: string;
 }

@@ -18,12 +18,18 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.api.getPosts()
       .subscribe((res: any) => {
-        this.posts = res;
+        this.posts = this.sortPostsByDate(res);
         this.isLoading = false;
       }, err => {
         console.log(err);
         this.isLoading = false;
       });
+  }
+
+  private sortPostsByDate(posts: Post[]): Post[] {
+    return posts.sort((post1, post2) => {
+      return new Date(post2.publish_date).getTime() - new Date(post1.publish_date).getTime();
+    });
   }
 
 }

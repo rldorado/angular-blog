@@ -16,7 +16,6 @@ export class AddCommentComponent implements OnInit {
 
   @Input() post: Post;
   commentForm: FormGroup;
-  comment: Comment;
 
   constructor(private api: CommentService, private router: Router, private modalService: NgbModal) { }
 
@@ -30,8 +29,14 @@ export class AddCommentComponent implements OnInit {
     this.api.addCommentByPostId(this.commentForm.value, Number(this.post.id))
       .subscribe(() => {
         this.modalService.dismissAll();
+        this.refresh();
         this.router.navigate(['post/details/', this.post.id]);
       }, error => console.log(error));
+  }
+
+  private refresh() {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
   }
 
 }

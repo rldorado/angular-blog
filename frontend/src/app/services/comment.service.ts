@@ -13,7 +13,7 @@ export class CommentService {
 
   constructor(private http: HttpClient) { }
 
-  addCommentByPostId(comment: Comment, id: number): Observable<Comment> {
+  addCommentByPostId(comment: Comment, id: any): Observable<Comment> {
     return this.http.post<Comment>(`${apiURL}/posts/${id}/comments`, comment).pipe(
       tap((prod: Comment) => console.log(`added comment w/ id=${prod.id} to post w/ id=${id}`)),
       catchError(this.handleError<Comment>('addComment'))
@@ -24,8 +24,32 @@ export class CommentService {
     const url = `${apiURL}/posts/${postId}/comments`;
     return this.http.get<Comment[]>(url).pipe(
         tap(() => this.log(`fetched comments by postId=${postId}`)),
-        catchError(this.handleError('getCommentsByPostId', []))
+        catchError(this.handleError<Comment[]>('getCommentsByPostId', []))
       );
+  }
+
+  deleteCommentById(id: any): Observable<Comment> {
+    const url = `${apiURL}/comments/${id}`;
+    return this.http.delete<Comment>(url).pipe(
+      tap(_ => console.log(`deleted comment id=${id}`)),
+      catchError(this.handleError<Comment>('deleteComment'))
+    );
+  }
+
+  updateComment(id: any, comment: Comment): Observable<Comment> {
+    const url = `${apiURL}/comments/${id}`;
+    return this.http.put<Comment>(url, comment).pipe(
+      tap(_ => console.log(`updated comment id=${id}`)),
+      catchError(this.handleError<Comment>('updateComment'))
+    );
+  }
+
+  getCommentById(id: any): Observable<Comment> {
+    const url = `${apiURL}/comments/${id}`;
+    return this.http.get<Comment>(url).pipe(
+      tap(() => this.log(`fetched comment by id=${id}`)),
+      catchError(this.handleError<Comment>('getCommentById'))
+    );
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

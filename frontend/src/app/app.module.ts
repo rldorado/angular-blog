@@ -18,6 +18,7 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // Services
 import { PostService } from './services/post.service';
 import { CommentService } from './services/comment.service';
+import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { CommentService } from './services/comment.service';
     HomeComponent,
     PostDetailsComponent,
     CommentComponent,
-    AddCommentComponent
+    AddCommentComponent,
+    EditCommentComponent
   ],
   imports: [
     BrowserModule,

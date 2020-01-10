@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
 import { PostDetailsComponent } from './views/post-details/post-details.component';
+import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 
 const routes: Routes = [
   {
@@ -11,13 +12,19 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent,
-    data: { title: 'Blog Home' }
+    component: HomeComponent
   },
   {
     path: 'post/details/:id',
-    component: PostDetailsComponent,
-    data: { title: 'Show Post Details' }
+    component: PostDetailsComponent
+  },
+  {
+    path: 'comments/:id/edit',
+    component: EditCommentComponent
+  },
+  {
+    path: '**',
+    component: HomeComponent
   }
 ];
 

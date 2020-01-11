@@ -5,12 +5,6 @@
   <div *ngIf="isLoading" class="alert alert-warning">
     Loading data, please wait...
   </div>
-  <div class="btn-toolbar justify-content-center mb-2">
-    <div class="btn-group" aria-label="Main buttons">
-      <button class="btn btn-secondary" [routerLink]="'/home'"><i class="fa fa-arrow-left"></i></button>
-      <button class="btn btn-primary" (click)="openModal(commentAddModal)"><i class="fa fa-plus"></i></button>
-    </div>
-  </div>
   <div class="card">
     <div class="card-header">{{ post.author }} | <span class="text-muted">{{ post.publish_date }}</span></div>
     <div class="card-body">
@@ -23,6 +17,12 @@
         <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
       </ul>
       <ng-template #noComments>There are no comments.</ng-template>
+      <div class="btn-toolbar justify-content-center mt-2">
+        <div class="btn-group" aria-label="Main buttons">
+          <button class="btn btn-secondary" [routerLink]="'/home'"><i class="fa fa-arrow-left"></i></button>
+          <button class="btn btn-primary" (click)="openModal(commentAddModal)"><i class="fa fa-plus"></i></button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

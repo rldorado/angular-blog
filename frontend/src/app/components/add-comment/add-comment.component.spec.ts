@@ -23,7 +23,28 @@ describe('AddCommentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render modal title in a h5 tag', async(() => {
+    const asyncFixture = TestBed.createComponent(AddCommentComponent);
+    asyncFixture.detectChanges();
+    const compiled = asyncFixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h5').textContent).toContain('New comment');
+  }));
+
+  it('form invalid when empty', () => {
+    expect(component.commentForm.valid).toBeFalsy();
+  });
+
+  it('should create a new comment', () => {
+    component.commentForm.controls.user.setValue('Axel Rose');
+    component.commentForm.controls.content.setValue('I love this test');
+    expect(component.commentForm.valid).toBeTruthy();
+    component.post = { id: '1', publish_date: null, description: 'This is a new post', author: '', content: '', title: '' };
+    component.addComment();
+    expect(component.comment).toEqual(jasmine.objectContaining({ user: 'Axel Rose', content: 'I love this test' }));
+  });
+
 });

@@ -23,7 +23,19 @@ describe('EditCommentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('form invalid when empty', () => {
+    expect(component.commentForm.valid).toBeFalsy();
+  });
+
+  it('should update a comment', () => {
+    component.comment = { id: 5, user: 'Axel Rose', date: '02-02-2020', postId: 1, content: 'Welcome to the jungle!', parent_id: null };
+    component.commentForm.controls.content.setValue('Sweet Child of Mine');
+    component.save();
+    expect(component.comment).toEqual(jasmine.objectContaining({ content: 'Sweet Child of Mine' }));
+  });
+
 });

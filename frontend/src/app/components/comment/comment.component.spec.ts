@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 
 import { CommentComponent } from './comment.component';
 import { EditCommentComponent } from '../edit-comment/edit-comment.component';
@@ -24,7 +25,19 @@ describe('CommentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should remove comment upon button click', () => {
+    component.comment = { id: 10, postId: 1, parent_id: null, date: null, user: null, content: 'This is a fresh comment' };
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css('#deleteBtn'))
+      .triggerEventHandler('click', null);
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.innerHTML).toContain('This is a fresh comment');
+  });
+
 });
